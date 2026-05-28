@@ -81,3 +81,87 @@
     grid-template-columns: 1fr;
   }
 }
+.grab-book-btn {
+  margin-top: 28px;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.grab-book-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.popup-card {
+  width: 90%;
+  max-width: 420px;
+  padding: 32px;
+  border-radius: 20px;
+  background: #0f172a;
+  color: white;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+  animation: popupShow 0.3s ease;
+}
+
+.popup-card h2 {
+  margin-bottom: 14px;
+  color: #f97316;
+}
+
+.booking-id {
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  color: #f8fafc;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.close-popup-btn {
+  margin-top: 24px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.close-popup-btn:hover {
+  opacity: 0.95;
+}
+
+@keyframes popupShow {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
