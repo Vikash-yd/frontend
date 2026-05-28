@@ -2,9 +2,13 @@
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import "./LongueDetails.css";
+import { useEffect } from "react";
 
 function Activities() {
   const navigate = useNavigate();
+ useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const activities = [
     {

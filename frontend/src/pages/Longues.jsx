@@ -3,9 +3,13 @@ import { FaComments, FaBookOpen, FaUsers, FaLightbulb, FaBullseye, FaCoffee } fr
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "./Longues.css";
+import { useEffect } from "react";
 
 function Longues() {
   const navigate = useNavigate();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const lounges = [
     {

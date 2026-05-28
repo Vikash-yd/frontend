@@ -3,10 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "./LongueDetails.css";
+import { useEffect } from "react";
 
 function LongueDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+ useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const pageData = useMemo(
     () => ({

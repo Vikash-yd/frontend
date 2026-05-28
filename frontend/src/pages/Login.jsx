@@ -1,8 +1,12 @@
   import "./Auth.css";
 import Navbar from "../components/Navbar";
 import bgImage from "../assets/library.jpg";
+import { useEffect } from "react";
 
 function Login() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     alert("Login submitted");

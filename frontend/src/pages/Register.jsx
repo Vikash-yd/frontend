@@ -4,8 +4,15 @@ import axios from "axios";
 import "./Auth.css";
 import Navbar from "../components/Navbar";
 import bgImage from "../assets/library.jpg";
+import { useEffect } from "react";
 
 function Register() {
+  const [dob, setDob] = useState("");
+  const [mobile, setMobile] = useState("");
+      useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
 
   const navigate = useNavigate();
 

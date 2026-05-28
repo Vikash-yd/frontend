@@ -4,6 +4,7 @@ import "./Books.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+import { useEffect } from "react";
 import {
   FaBook,
   FaFlask,
@@ -17,6 +18,9 @@ import {
 
 function Books() {
   const navigate = useNavigate();
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const [categories, setCategories] = useState([]);
 

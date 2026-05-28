@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import "./Seat.css";
 import hallsData from "../assets/hallData.js";
 import "./Books.css";
+import { useEffect } from "react";
 
 function Seat() {
   const [selectedHallId, setSelectedHallId] = useState(hallsData[0].id);
@@ -13,6 +14,9 @@ function Seat() {
   const selectedHall = hallsData.find(
     (hall) => hall.id === Number(selectedHallId)
   );
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const totalSeats = useMemo(() => {
     return selectedHall.rows.reduce((sum, row) => {

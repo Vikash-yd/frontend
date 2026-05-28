@@ -4,12 +4,17 @@ import "./CategoryBooks.css";
 
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import booksData from "../assets/bookData.js";
+import { useEffect } from "react";
 
 function CategoryBooks() {
 
   const { category } = useParams();
 
   const navigate = useNavigate();
+ useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const [books, setBooks] = useState([]);
 
