@@ -12,6 +12,7 @@ import Seat from './pages/Seat.jsx';
 import CategoryBooks from './pages/CategoryBooks.jsx';
 import BookDetails from './pages/BookDetails.jsx';
 import LongueDetails from "./pages/LongueDetails.jsx";
+import EventDetails from "./pages/EventDetails";
 import Activities from "./pages/Activities.jsx";
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/books/details/:id" element={<BookDetails />} />
         <Route path="/longues" element={<Longues />} />
            <Route path="/longues/:id" element={<LongueDetails />} />
+           <Route path="/event/:id" element={<EventDetails />} />
         <Route path="/activities" element={<Activities />} />
         <Route path="/seat" element={<Seat />} />
       </Routes>

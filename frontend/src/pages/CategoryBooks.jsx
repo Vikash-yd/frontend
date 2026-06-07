@@ -5,7 +5,7 @@ import "./CategoryBooks.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import booksData from "../assets/bookData.js";
-import { useEffect } from "react";
+
 
 function CategoryBooks() {
 

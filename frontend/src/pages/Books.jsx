@@ -4,7 +4,7 @@ import "./Books.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { useEffect } from "react";
+
 import {
   FaBook,
   FaFlask,
