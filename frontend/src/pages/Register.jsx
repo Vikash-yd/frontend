@@ -1,80 +1,61 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Auth.css";
 import Navbar from "../components/Navbar";
 import bgImage from "../assets/library.jpg";
 
 function Register() {
-  const [dob, setDob] = useState("");
-  const [mobile, setMobile] = useState("");
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+    mobile: ""
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const name = e.target.name.value;
-    const username = e.target.username.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-
-    const birthDate = new Date(dob);
-    const today = new Date();
-
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-
-    if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < birthDate.getDate())
-    ) {
-      age--;
-    }
-
-    if (age <= 15) {
-      alert("Age must be greater than 15");
-      return;
-    }
-
-    if (!/^\d{10}$/.test(mobile)) {
+    if (!/^\d{10}$/.test(formData.mobile)) {
       alert("Enter valid 10-digit mobile number");
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:8080/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-          phoneNumber: mobile,
-          address: "",
-          role: "MEMBER"
-        }),
+      const response = await axios.post(
+        "http://localhost:8080/api/users",
+        formData
+      );
+
+      console.log("Registered:", response.data);
+      alert("User registered successfully ✅");
+
+      setFormData({
+        name: "",
+        username: "",
+        email: "",
+        password: "",
+        mobile: ""
       });
 
-      const data = await response.text();
-
-      if (!response.ok) {
-        alert(data || "Registration failed");
-        return;
-      }
-
-      alert("Registration successful!");
-      console.log("Server response:", data);
-
-      e.target.reset();
-      setDob("");
-      setMobile("");
-
+      navigate("/login");
     } catch (error) {
-      console.error(error);
-      alert("Server error. Check backend.");
+      console.error("Error:", error);
+      alert("Registration failed ❌");
     }
   };
 
@@ -90,34 +71,53 @@ function Register() {
             <h2>Register</h2>
 
             <form onSubmit={handleSubmit} className="auth-form">
-              <input name="name" type="text" placeholder="Name" required />
-              <input name="username" type="text" placeholder="Username" required />
-              <input name="email" type="email" placeholder="Email" required />
-              <input name="password" type="password" placeholder="Password" required />
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
 
               <input
-                type="date"
-                value={dob}
-                onChange={(e) => setDob(e.target.value)}
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
+
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
                 required
               />
 
               <input
                 type="tel"
+                name="mobile"
                 placeholder="Mobile Number"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
+                value={formData.mobile}
+                onChange={handleChange}
                 required
               />
 
               <button type="submit">Register</button>
             </form>
-            <p style={{ marginTop: "10px" }}>
-  Already registered?{" "}
-  <a href="/login" style={{ color: "blue", cursor: "pointer" }}>
-    Login here
-  </a>
-</p>
           </div>
         </div>
       </div>

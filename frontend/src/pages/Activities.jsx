@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 function Activities() {
   const navigate = useNavigate();
-    useEffect(() => {
+ useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 

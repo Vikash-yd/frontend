@@ -1,4 +1,4 @@
-  .category-books-page {
+ .category-books-page {
   min-height: 100vh;
   padding: 120px 40px 60px;
   background: linear-gradient(rgba(2, 6, 23, 0.96), rgba(15, 23, 42, 0.96));
@@ -11,6 +11,7 @@
 }
 
 .category-header h1 {
+  color: white;
   font-size: 42px;
   margin-bottom: 10px;
   text-transform: capitalize;

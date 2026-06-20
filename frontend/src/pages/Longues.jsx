@@ -1,20 +1,28 @@
-import { getLounges } from "../services/loungeService";
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaComments, FaBookOpen, FaUsers, FaLightbulb, FaBullseye, FaCoffee } from "react-icons/fa";
+import {
+  FaComments,
+  FaBookOpen,
+  FaUsers,
+  FaLightbulb,
+  FaBullseye,
+  FaCoffee,
+} from "react-icons/fa";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "./Longues.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function Longues() {
   const navigate = useNavigate();
+  const [lounges, setLounges] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    fetchLounges();
   }, []);
 
-  const lounges = [
+  // ✅ Fallback static data (friend’s version preserved)
+  const fallbackLounges = [
     {
       id: "discussion-room",
       icon: <FaComments />,
@@ -65,6 +73,39 @@ function Longues() {
     },
   ];
 
+  const getIcon = (index) => {
+    const icons = [
+      <FaComments />,
+      <FaBookOpen />,
+      <FaUsers />,
+      <FaLightbulb />,
+      <FaBullseye />,
+      <FaCoffee />,
+    ];
+    return icons[index % icons.length];
+  };
+
+  // ✅ API fetch (your version)
+  const fetchLounges = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/lounges");
+      const data = await response.json();
+
+      const loungesWithIcons = data.map((lounge, index) => ({
+        ...lounge,
+        icon: getIcon(index),
+        buttonText: lounge.buttonText || "Explore Lounge",
+      }));
+
+      setLounges(loungesWithIcons);
+    } catch (error) {
+      console.error("Error fetching lounges:", error);
+
+      // ✅ fallback to static data (IMPORTANT MERGE PART)
+      setLounges(fallbackLounges);
+    }
+  };
+
   const handleExploreSpaces = () => {
     const section = document.getElementById("lounges-section");
     if (section) {
@@ -110,7 +151,7 @@ function Longues() {
 
           <div className="lounges-grid">
             {lounges.map((lounge, index) => (
-              <div className="lounge-card" key={index}>
+              <div className="lounge-card" key={lounge.id || index}>
                 <div className="lounge-icon">{lounge.icon}</div>
                 <h3>{lounge.title}</h3>
                 <p>{lounge.description}</p>

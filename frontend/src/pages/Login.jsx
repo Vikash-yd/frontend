@@ -63,8 +63,10 @@ function Login() {
 
       <div className="auth-container">
         <img src={bgImage} className="auth-bg" alt="Library" />
+        <img src={bgImage} className="auth-bg" alt="Library" />
 
         <div className="auth-overlay">
+          <div className="auth-card login-card">
           <div className="auth-card login-card">
             <h2>Login</h2>
 
@@ -99,6 +101,7 @@ function Login() {
       </div>
     </>
   );
+
 }
 
-export default Login;
+export default Login
