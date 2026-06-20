@@ -26,7 +26,6 @@ function Login() {
         }),
       });
 
-      // ✅ SAFE HANDLING (IMPORTANT FIX)
       const contentType = response.headers.get("content-type");
 
       let data;
@@ -42,15 +41,12 @@ function Login() {
         return;
       }
 
-      // store user only if success
       localStorage.setItem("user", JSON.stringify(data));
 
       alert("Login successful");
       console.log(data);
 
-      // redirect
       window.location.href = "/";
-
     } catch (error) {
       console.error(error);
       alert("Server error");
@@ -63,10 +59,8 @@ function Login() {
 
       <div className="auth-container">
         <img src={bgImage} className="auth-bg" alt="Library" />
-        <img src={bgImage} className="auth-bg" alt="Library" />
 
         <div className="auth-overlay">
-          <div className="auth-card login-card">
           <div className="auth-card login-card">
             <h2>Login</h2>
 
@@ -92,7 +86,10 @@ function Login() {
 
             <p style={{ marginTop: "10px" }}>
               Not registered?{" "}
-              <a href="/register" style={{ color: "blue", cursor: "pointer" }}>
+              <a
+                href="/register"
+                style={{ color: "blue", cursor: "pointer" }}
+              >
                 Create account
               </a>
             </p>
@@ -101,7 +98,6 @@ function Login() {
       </div>
     </>
   );
-
 }
 
-export default Login
+export default Login;
