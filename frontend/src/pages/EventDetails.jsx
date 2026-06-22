@@ -11,27 +11,64 @@ function EventDetails() {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
+ useEffect(() => {
+  window.scrollTo(0, 0);
 
-    const fetchEvent = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:8080/events/${id}`
-        );
+  // // TEMPORARY DEBUG
+  // console.log("TOKEN =>", localStorage.getItem("token"));
+  // console.log("USER =>", localStorage.getItem("user"));
+  // console.log("AUTH =>", localStorage.getItem("auth"));
+  // console.log("ALL STORAGE =>", { ...localStorage });
 
-        const data = await response.json();
+  const fetchEvent = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/events/${id}`
+      );
 
-        setEvent(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      const data = await response.json();
 
-    fetchEvent();
-  }, [id]);
+      setEvent(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchEvent();
+}, [id]);
+ const handleRegister = () => {
+    const user = localStorage.getItem("user");
+
+    if (!user) {
+      alert("Please login first to register for this event.");
+      navigate("/login");
+      return;
+    }
+
+    const loggedInUser = JSON.parse(user);
+
+    alert(
+      `Successfully registered for "${event.title}" as ${loggedInUser.name}`
+    );
+  };
+
+  const handleSaveEvent = () => {
+    const user = localStorage.getItem("user");
+
+    if (!user) {
+      alert("Please login first to save this event.");
+      navigate("/login");
+      return;
+    }
+
+    const loggedInUser = JSON.parse(user);
+
+    alert(
+      `"${event.title}" has been saved by ${loggedInUser.name}`
+    );
+  };
 
   if (loading) {
     return (
@@ -221,13 +258,26 @@ function EventDetails() {
 
           <div className="action-row">
 
-            <button className="register-btn">
-              Register Now
-            </button>
+            <button
+  className="register-btn"
+  onClick={handleRegister}
+>
+  Register Now
+</button>
 
-            <button className="save-btn">
-              Save Event
-            </button>
+<button
+  className="save-btn"
+  onClick={handleSaveEvent}
+>
+  Save Event
+</button>
+
+<button
+  className="save-btn"
+  onClick={() => navigate(-1)}
+>
+  Back
+</button>
 
             <button
               className="save-btn"
