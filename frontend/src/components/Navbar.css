@@ -1,207 +1,550 @@
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import "./Search.css";
+/* =========================
+   NAVBAR
+========================= */
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
+.navbar {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
 
-function Search() {
-  const queryParams = useQuery();
-  const navigate = useNavigate();
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
 
-  const query = queryParams.get("query");
-  const type = queryParams.get("type") || "books";
+  padding: 16px 40px;
 
-  const [books, setBooks] = useState([]);
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const formatText = (text) => {
-    if (!text) return "";
-    return text
-      .toString()
-      .replace(/_/g, " ")
-      .toLowerCase()
-      .replace(/\b\w/g, (c) => c.toUpperCase());
-  };
-
-  useEffect(() => {
-    if (!query) return;
-
-    const fetchResults = async () => {
-      setLoading(true);
-
-      try {
-        const response = await fetch(
-          `http://localhost:8080/api/search?query=${query}&type=${type}`
-        );
-
-        const data = await response.json();
-
-        setBooks(data.books || []);
-        setEvents(data.events || []);
-      } catch (error) {
-        console.error(error);
-        setBooks([]);
-        setEvents([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchResults();
-  }, [query, type]);
-
-  return (
-    <>
-      <Navbar />
-
-      <div className="search-page">
-        <div className="search-wrapper">
-
-          <h2 className="search-title">
-            Search Results for <span>"{query}"</span>
-          </h2>
-
-          {loading && <div className="info">Loading...</div>}
-
-          {!loading && books.length === 0 && events.length === 0 && (
-            <div className="info">No results found.</div>
-          )}
-
-          {/* BOOKS */}
-
-          {books.length > 0 && (
-            <>
-              <h2 className="section-heading">Books</h2>
-
-              <div className="results-grid">
-
-                {books.map((book) => (
-
-                  <div className="book-card" key={book.id}>
-
-                    <img
-                      src={
-                        book.coverImageUrl ||
-                        "https://via.placeholder.com/300x420?text=No+Cover"
-                      }
-                      alt={book.title}
-                    />
-
-                    <div className="book-info">
-
-                      <h3>{book.title}</h3>
-
-                      <div className="detail-row">
-                        <span className="label">Author</span>
-                        <span className="value">{book.author}</span>
-                      </div>
-
-                      <div className="detail-row">
-                        <span className="label">Category</span>
-                        <span className="value">{formatText(book.category)}</span>
-                      </div>
-
-                      <div className="detail-row">
-                        <span className="label">Rating</span>
-                        <span className="value">⭐ {book.rating}</span>
-                      </div>
-
-                      <div className="detail-row">
-                        <span className="label">Available</span>
-                        <span className="value">
-                          {book.availableCopies} / {book.totalCopies}
-                        </span>
-                      </div>
-
-                      <button
-                        className="show-book-btn"
-                        onClick={() => navigate(`/books/details/${book.id}`)}
-                      >
-                        Show Book
-                      </button>
-
-                    </div>
-
-                  </div>
-
-                ))}
-
-              </div>
-            </>
-          )}
-
-          {/* EVENTS */}
-
-          {events.length > 0 && (
-            <>
-              <h2 className="section-heading">Events</h2>
-
-              <div className="results-grid">
-
-                {events.map((event) => (
-
-                  <div className="book-card" key={event.id}>
-
-                    <img
-                      src={
-                        event.bannerImage ||
-                        "https://via.placeholder.com/300x420?text=Event"
-                      }
-                      alt={event.title}
-                    />
-
-                    <div className="book-info">
-
-                      <h3>{event.title}</h3>
-
-                      <div className="detail-row">
-                        <span className="label">Date</span>
-                        <span className="value">{event.eventDate}</span>
-                      </div>
-
-                      <div className="detail-row">
-                        <span className="label">Venue</span>
-                        <span className="value">{event.venueName}</span>
-                      </div>
-
-                      <div className="detail-row">
-                        <span className="label">Status</span>
-                        <span className="value">{formatText(event.status)}</span>
-                      </div>
-
-                      <div className="detail-row">
-                        <span className="label">Seats Left</span>
-                        <span className="value">{event.seatsLeft}</span>
-                      </div>
-
-                      <button
-                        className="show-book-btn"
-                        onClick={() => navigate(`/event/${event.id}`)}
-                      >
-                        Show Event
-                      </button>
-
-                    </div>
-
-                  </div>
-
-                ))}
-
-              </div>
-            </>
-          )}
-
-        </div>
-      </div>
-
-      <Footer />
-    </>
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.96),
+    rgba(30, 41, 59, 0.92),
+    rgba(249, 115, 22, 0.12)
   );
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+
+  z-index: 1000;
 }
 
-export default Search;
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+  margin: 0;
+  color: white;
+  font-size: 1.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: .5px;
+}
+
+.logo span {
+  color: #f97316;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-container {
+  position: relative;
+  flex: 0 1 430px;
+  max-width: 430px;
+  min-width: 320px;
+}
+
+.search-container input {
+  width: 100%;
+  height: 50px;
+
+  padding: 0 56px 0 18px;
+
+  background: rgba(15,23,42,.96);
+
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #f97316;
+
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+
+  outline: none;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  transition: .3s ease;
+}
+
+.search-container input::placeholder{
+  color:#94a3b8;
+}
+
+.search-container input:focus{
+
+  border-color:#f97316;
+
+  box-shadow:0 0 0 4px rgba(249,115,22,.15);
+
+  background:#0f172a;
+}
+
+.search-btn{
+
+  position:absolute;
+
+  top:6px;
+  right:6px;
+
+  width:38px;
+  height:38px;
+
+  border:none;
+
+  border-radius:10px;
+
+  background:linear-gradient(135deg,#f97316,#ea580c);
+
+  color:white;
+
+  cursor:pointer;
+
+  transition:.3s;
+}
+
+.search-btn:hover{
+
+  transform:scale(1.06);
+
+  box-shadow:0 8px 18px rgba(249,115,22,.35);
+}
+
+/* =========================
+   SEARCH DROPDOWN
+========================= */
+
+.search-filters{
+
+  position:absolute;
+
+  top:calc(100% + 10px);
+
+  left:0;
+
+  width:100%;
+
+  padding:18px;
+
+  border-radius:18px;
+
+  background:rgba(15,23,42,.98);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(16px);
+
+  box-shadow:0 20px 45px rgba(0,0,0,.35);
+
+  z-index:999;
+}
+
+/* =========================
+   RECENT SEARCHES
+========================= */
+
+.recent-header{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-bottom:14px;
+
+  color:white;
+
+  font-weight:600;
+}
+
+.clear-btn{
+
+  border:none;
+
+  background:none;
+
+  color:#f97316;
+
+  cursor:pointer;
+
+  font-size:13px;
+
+  font-weight:600;
+}
+
+.clear-btn:hover{
+
+  text-decoration:underline;
+}
+
+.recent-search-list{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:10px;
+
+  margin-bottom:15px;
+}
+
+.recent-search-item{
+
+  width:100%;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  border:none;
+
+  border-radius:12px;
+
+  background:rgba(255,255,255,.08);
+
+  color:#ffffff;
+
+  padding:12px 14px;
+
+  cursor:pointer;
+
+  transition:.3s;
+
+  text-align:left;
+}
+
+.recent-search-item:hover{
+
+  background:rgba(249,115,22,.18);
+}
+
+.search-filters hr{
+
+  border:none;
+
+  border-top:1px solid rgba(255,255,255,.08);
+
+  margin:15px 0;
+}
+
+/* =========================
+   FILTER CHIPS
+========================= */
+
+.chip-wrapper{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:10px;
+}
+
+.filter-chip{
+
+  border:none;
+
+  border-radius:30px;
+
+  padding:9px 18px;
+
+  background:rgba(255,255,255,.08);
+
+  color:white;
+
+  cursor:pointer;
+
+  transition:.3s;
+}
+
+.filter-chip:hover{
+
+  background:rgba(249,115,22,.18);
+}
+
+.active-chip{
+
+  background:#f97316;
+
+  color:white;
+}
+
+/* =========================
+   NAV LINKS
+========================= */
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.nav-links li {
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+
+  color: rgba(255, 255, 255, 0.92);
+
+  padding: 10px 20px;
+
+  border-radius: 999px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: white;
+
+  background: rgba(249, 115, 22, 0.15);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.18);
+}
+
+.nav-links a.active {
+  color: white;
+
+  background: linear-gradient(
+    135deg,
+    rgba(249, 115, 22, 0.35),
+    rgba(249, 115, 22, 0.18)
+  );
+
+  border: 1px solid rgba(249, 115, 22, 0.25);
+
+  box-shadow: 0 10px 24px rgba(249, 115, 22, 0.28);
+}
+
+/* =========================
+   USER MENU
+========================= */
+
+.user-menu {
+  position: relative;
+}
+
+.user-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 18px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.user-name:hover {
+  background: rgba(249, 115, 22, 0.18);
+
+  border-color: rgba(249, 115, 22, 0.25);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.18);
+}
+
+.dropdown {
+  position: absolute;
+
+  top: calc(100% + 12px);
+  right: 0;
+
+  width: 180px;
+
+  background: rgba(15, 23, 42, 0.98);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  backdrop-filter: blur(16px);
+
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+
+  z-index: 999;
+}
+
+.dropdown button {
+  width: 100%;
+
+  border: none;
+
+  background: transparent;
+
+  color: white;
+
+  padding: 14px 18px;
+
+  text-align: left;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.dropdown button:hover {
+  background: rgba(249, 115, 22, 0.18);
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+.search-filters::-webkit-scrollbar {
+  width: 6px;
+}
+
+.search-filters::-webkit-scrollbar-thumb {
+  background: rgba(249, 115, 22, 0.45);
+  border-radius: 20px;
+}
+
+.search-filters::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* =========================
+   AUTOFILL FIX
+========================= */
+
+.search-container input:-webkit-autofill,
+.search-container input:-webkit-autofill:hover,
+.search-container input:-webkit-autofill:focus,
+.search-container input:-webkit-autofill:active {
+
+  -webkit-text-fill-color: white !important;
+
+  -webkit-box-shadow: 0 0 0 1000px #0f172a inset !important;
+
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width:1100px){
+
+  .navbar{
+    padding:16px 24px;
+    gap:20px;
+  }
+
+  .search-container{
+    max-width:360px;
+    min-width:250px;
+  }
+
+}
+
+@media (max-width:900px){
+
+  .navbar{
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:18px;
+  }
+
+  .logo{
+    width:100%;
+    text-align:center;
+  }
+
+  .search-container{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    order:3;
+  }
+
+  .nav-links{
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+
+}
+
+@media (max-width:600px){
+
+  .navbar{
+    padding:14px;
+  }
+
+  .logo{
+    font-size:1.45rem;
+  }
+
+  .search-container input{
+    height:46px;
+    font-size:14px;
+  }
+
+  .search-btn{
+    width:36px;
+    height:36px;
+  }
+
+  .nav-links{
+    gap:8px;
+  }
+
+  .nav-links a{
+    padding:8px 14px;
+    font-size:14px;
+  }
+
+  .user-name{
+    padding:8px 14px;
+    font-size:14px;
+  }
+
+  .dropdown{
+    width:160px;
+  }
+
+}
